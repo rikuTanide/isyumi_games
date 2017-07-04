@@ -51,6 +51,40 @@ class AppComponent {
     return null;
   }
 
+  buyOnigiri() {
+    var index = getIndex();
+    if (index == null) {
+      return;
+    }
+    products.add(new Product(ProductType.Onigiri, index));
+  }
+
+  buyWater() {
+    var index = getIndex();
+    if (index == null) {
+      return;
+    }
+    products.add(new Product(ProductType.Water, index));
+  }
+
+  int getIndex() {
+    for (var x = 0; x < 14; x ++) {
+      if (onIndex(x)) {
+        continue;
+      }
+      return x;
+    }
+    return null;
+  }
+
+  bool onIndex(int x) {
+    for (var product in products) {
+      if (product.placeIndex == x) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 class Passer {
@@ -73,8 +107,8 @@ class Product {
   bool get isWater => productType == ProductType.Water;
 
   String get onigiriD =>
-      "M${280 - (placeIndex * 10)},80 L${290 - (placeIndex * 10)},80 L${285 -
-          (placeIndex * 10)},70 Z";
+      "M${280 - (placeIndex * 20)},80 L${290 - (placeIndex * 20)},80 L${285 -
+          (placeIndex * 20)},70 Z";
 
   String get waterD =>
       "M${280 - (placeIndex * 20)},80 H${290 - (placeIndex * 20)} V60 H${280 -
