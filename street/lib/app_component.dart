@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:angular2/angular2.dart';
 import 'dart:html';
 
@@ -8,6 +9,7 @@ import 'dart:html';
 )
 class AppComponent {
 
+  Random random = new Random.secure();
   List<Passer>passers = [new Passer()];
   List<Product> products = [
     new Product(ProductType.Onigiri, 0),
@@ -24,8 +26,29 @@ class AppComponent {
       if (passer.elapsedTime == 320) {
         passer.elapsedTime = 0;
       }
+
+      if (passer.elapsedTime % 20 == 0) {
+        var product = getProduct(passer.elapsedTime);
+
+        if (product == null) {
+          continue;
+        }
+
+        if (random.nextInt(3) == 1) {
+          products.remove(product);
+        }
+      }
     }
     window.requestAnimationFrame(animationFlame);
+  }
+
+  Product getProduct(int elapsedTime) {
+    for (var product in products) {
+      if (product.placeIndex == (elapsedTime / 20)) {
+        return product;
+      }
+    }
+    return null;
   }
 
 }
@@ -50,9 +73,12 @@ class Product {
   bool get isWater => productType == ProductType.Water;
 
   String get onigiriD =>
-      "M${280 - (placeIndex * 10)},80 L${290 - (placeIndex * 10)},80 L${285 -(placeIndex * 10)},70 Z";
+      "M${280 - (placeIndex * 10)},80 L${290 - (placeIndex * 10)},80 L${285 -
+          (placeIndex * 10)},70 Z";
 
-  String get waterD => "M${280 - (placeIndex * 20)},80 H${290 - (placeIndex * 20)} V60 H${280 - (placeIndex * 20)} Z";
+  String get waterD =>
+      "M${280 - (placeIndex * 20)},80 H${290 - (placeIndex * 20)} V60 H${280 -
+          (placeIndex * 20)} Z";
 
 }
 
