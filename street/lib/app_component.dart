@@ -10,6 +10,7 @@ import 'dart:html';
 class AppComponent {
 
   Random random = new Random.secure();
+  int money = 50;
   List<Passer>passers = [new Passer()];
   List<Product> products = [
     new Product(ProductType.Onigiri, 0),
@@ -35,6 +36,12 @@ class AppComponent {
         }
 
         if (random.nextInt(3) == 1) {
+          if (product.productType == ProductType.Onigiri) {
+            money += OnigiriSalePrice;
+          }
+          if (product.productType == ProductType.Water) {
+            money += WaterSalePrice;
+          }
           products.remove(product);
         }
       }
@@ -52,18 +59,26 @@ class AppComponent {
   }
 
   buyOnigiri() {
+    if (money < OnigiriBuyPrice) {
+      return;
+    }
     var index = getIndex();
     if (index == null) {
       return;
     }
+    money -= OnigiriBuyPrice;
     products.add(new Product(ProductType.Onigiri, index));
   }
 
   buyWater() {
+    if (money < WaterBuyPrice) {
+      return;
+    }
     var index = getIndex();
     if (index == null) {
       return;
     }
+    money -= WaterBuyPrice;
     products.add(new Product(ProductType.Water, index));
   }
 
@@ -85,6 +100,7 @@ class AppComponent {
     }
     return false;
   }
+
 }
 
 class Passer {
@@ -120,3 +136,8 @@ enum ProductType {
   Onigiri,
   Water
 }
+
+const OnigiriBuyPrice = 10,
+    OnigiriSalePrice = 12,
+    WaterBuyPrice = 5,
+    WaterSalePrice = 6;

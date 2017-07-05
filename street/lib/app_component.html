@@ -1,4 +1,5 @@
 <div>
+    <div>お金：{{money}}円</div>
     <svg height="400" width="290">
         <g *ngFor="let product of products">
             <path *ngIf="product.isOnigiri" [attr.d]="product.onigiriD" stroke="black" stroke-width="1"/>
