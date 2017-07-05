@@ -9,6 +9,8 @@ import 'dart:html';
 )
 class AppComponent {
 
+  int elapsedTime = 0;
+
   Random random = new Random.secure();
   int money = 50;
   List<Passer>passers = [new Passer()];
@@ -21,6 +23,10 @@ class AppComponent {
     window.requestAnimationFrame(animationFlame);
   }
 
+  bool get isAfternoon => elapsedTime % 600 > 300;
+
+  bool get isNight => !isAfternoon;
+
   Iterable<Product> get onigiris =>
       products.where((p) => p.productType == ProductType.Onigiri);
 
@@ -28,6 +34,8 @@ class AppComponent {
       products.where((p) => p.productType == ProductType.Water);
 
   animationFlame(_) {
+    elapsedTime ++;
+
     for (var passer in passers) {
       passer.elapsedTime ++;
       if (passer.elapsedTime == 320) {

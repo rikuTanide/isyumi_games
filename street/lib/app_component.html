@@ -19,12 +19,33 @@
 
         </defs>
 
-        <rect x="0" y="50" width="290" height="200" fill="green"/>
-        <rect x="0" y="110" width="290" height="40" fill="gray"/>
-        <use xlink:href="#table" x="15" y="80"/>
-        <use *ngFor="let onigiri of onigiris" xlink:href="#onigiri" [attr.x]="onigiri.x" y="85"/>
-        <use *ngFor="let water of waters" xlink:href="#water" [attr.x]="water.x" y="85"/>
-        <use *ngFor="let passer of passers" xlink:href="#passer" y="130" [attr.x]="passer.x"/>
+        <g *ngIf="isAfternoon">
+            <rect x="0" y="0" width="290" height="100" fill="skyblue"/>
+            <circle r="10" cx="50" cy="20" fill="orange"/>
+            <rect x="70" y="20" width="40" height="5" fill="white"/>
+            <rect x="150" y="10" width="40" height="5" fill="white"/>
+            <rect x="180" y="30" width="40" height="5" fill="white"/>
+        </g>
+        <g *ngIf="isNight">
+            <rect x="0" y="0" width="290" height="100" fill="midnightblue"/>
+            <line x1="200" y1="10" x2="201" y2="11"  stroke="yellow"/>
+            <line x1="50" y1="20" x2="51" y2="21"  stroke="yellow"/>
+            <line x1="138" y1="30" x2="139" y2="31"  stroke="yellow"/>
+            <line x1="75" y1="15" x2="76" y2="16"  stroke="yellow"/>
+            <line x1="110" y1="18" x2="111" y2="19"  stroke="yellow"/>
+            <line x1="85" y1="11" x2="86" y2="12"  stroke="yellow"/>
+            <line x1="260" y1="9" x2="260" y2="10"  stroke="yellow"/>
+            <line x1="38" y1="17" x2="39" y2="18"  stroke="yellow"/>
+            <line x1="250" y1="11" x2="251" y2="12"  stroke="yellow"/>
+            <line x1="17" y1="14" x2="18" y2="15"  stroke="yellow"/>
+            <line x1="28" y1="10" x2="29" y2="11"  stroke="yellow"/>
+        </g>
+        <rect x="0" y="50" width="290" height="340" fill="green"/>
+        <rect x="0" y="310" width="290" height="40" fill="gray"/>
+        <use xlink:href="#table" x="15" y="280"/>
+        <use *ngFor="let onigiri of onigiris" xlink:href="#onigiri" [attr.x]="onigiri.x" y="285"/>
+        <use *ngFor="let water of waters" xlink:href="#water" [attr.x]="water.x" y="285"/>
+        <use *ngFor="let passer of passers" xlink:href="#passer" y="330" [attr.x]="passer.x"/>
 
 
     </svg>
