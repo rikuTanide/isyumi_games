@@ -11,24 +11,23 @@ class AppComponent {
 
   int elapsedTime = 0;
 
-  Random random = new Random.secure();
   int money = 50;
   List<People>peoples = [
     new People()
       ..workPlaceIndex = 0
       ..jobType = JobType.Farmer,
-    new People()
-      ..workPlaceIndex = 1
-      ..jobType = JobType.Farmer,
-    new People()
-      ..workPlaceIndex = 2
-      ..jobType = JobType.Farmer,
-    new People()
-      ..workPlaceIndex = 3
-      ..jobType = JobType.Farmer,
-    new People()
-      ..workPlaceIndex = 4
-      ..jobType = JobType.Farmer,
+//    new People()
+//      ..workPlaceIndex = 1
+//      ..jobType = JobType.Farmer,
+//    new People()
+//      ..workPlaceIndex = 2
+//      ..jobType = JobType.Farmer,
+//    new People()
+//      ..workPlaceIndex = 3
+//      ..jobType = JobType.Farmer,
+//    new People()
+//      ..workPlaceIndex = 4
+//      ..jobType = JobType.Farmer,
 
   ];
   List<Product> products = [
@@ -78,6 +77,7 @@ class AppComponent {
       people.elapsedTime ++;
       if (people.elapsedTime == 800) {
         people.elapsedTime = 0;
+        people.buy = false;
       }
 
       if (people.elapsedTime % 20 == 5) {
@@ -87,15 +87,18 @@ class AppComponent {
           continue;
         }
 
-        if (random.nextInt(3) == 1) {
-          if (product.productType == ProductType.Onigiri) {
-            money += OnigiriSalePrice;
-          }
-          if (product.productType == ProductType.Water) {
-            money += WaterSalePrice;
-          }
-          products.remove(product);
+        if (people.buy) {
+          continue;
         }
+
+        if (product.productType == ProductType.Onigiri) {
+          money += OnigiriSalePrice;
+        }
+        if (product.productType == ProductType.Water) {
+          money += WaterSalePrice;
+        }
+        people.buy = true;
+        products.remove(product);
       }
     }
     window.requestAnimationFrame(animationFlame);
@@ -156,6 +159,8 @@ class AppComponent {
 }
 
 class People {
+
+  bool buy = false;
 
   int elapsedTime = 0;
 
