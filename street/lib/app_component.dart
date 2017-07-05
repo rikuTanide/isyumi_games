@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:angular2/angular2.dart';
 import 'dart:html';
@@ -53,7 +54,7 @@ class AppComponent {
   ];
 
   AppComponent() {
-    window.requestAnimationFrame(animationFlame);
+   new Timer(new Duration(milliseconds: 10),this.animationFlame);
   }
 
   bool get isAfternoon => elapsedTime % 800 < 600;
@@ -70,7 +71,7 @@ class AppComponent {
 
   Iterable<People> get workers => peoples.where((p) => p.isWorker);
 
-  animationFlame(_) {
+  animationFlame() {
     elapsedTime ++;
 
     for (var people in peoples) {
@@ -101,7 +102,7 @@ class AppComponent {
         products.remove(product);
       }
     }
-    window.requestAnimationFrame(animationFlame);
+    new Timer(new Duration(milliseconds: 5),this.animationFlame);
   }
 
   Product getProduct(int elapsedTime) {
