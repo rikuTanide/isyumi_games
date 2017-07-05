@@ -37,7 +37,7 @@ class AppComponent {
   ];
   List<Land> lands = [
     new Land()
-      .. landType = LandType.Farm
+      .. landType = LandType.Construction
       ..index = 0,
     new Land()
       .. landType = LandType.Farm
@@ -54,7 +54,7 @@ class AppComponent {
   ];
 
   AppComponent() {
-   new Timer(new Duration(milliseconds: 10),this.animationFlame);
+    new Timer(new Duration(milliseconds: 10), this.animationFlame);
   }
 
   bool get isAfternoon => elapsedTime % 800 < 600;
@@ -70,6 +70,11 @@ class AppComponent {
   Iterable<People> get passers => peoples.where((p) => p.isPasser);
 
   Iterable<People> get workers => peoples.where((p) => p.isWorker);
+
+  Iterable<Land> get farms => lands.where((l) => l.landType == LandType.Farm);
+
+  Iterable<Land> get constructions =>
+      lands.where((l) => l.landType == LandType.Construction);
 
   animationFlame() {
     elapsedTime ++;
@@ -102,7 +107,12 @@ class AppComponent {
         products.remove(product);
       }
     }
-    new Timer(new Duration(milliseconds: 5),this.animationFlame);
+    if (elapsedTime % 800 == 0) {
+      lands[(elapsedTime / 800).floor() - 1]?.landType = LandType.Construction;
+    }
+
+
+    new Timer(new Duration(milliseconds: 5), this.animationFlame);
   }
 
   Product getProduct(int elapsedTime) {
@@ -268,5 +278,6 @@ class Land {
 }
 
 enum LandType {
-  Farm
+  Farm,
+  Construction
 }

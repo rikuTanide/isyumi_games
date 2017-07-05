@@ -23,6 +23,23 @@
             <g id="farm">
                 <rect x="0" y="0" width="30" height="30" fill="brown"/>
             </g>
+            <g id="construction">
+                <rect x="0" y="25" width="5" height="5" fill="brown" stroke="black"/>
+                <rect x="5" y="25" width="5" height="5" fill="brown" stroke="black"/>
+                <rect x="10" y="25" width="5" height="5" fill="brown" stroke="black"/>
+
+                <rect x="0" y="20" width="5" height="5" fill="brown" stroke="black"/>
+                <rect x="5" y="20" width="5" height="5" fill="brown" stroke="black"/>
+                <rect x="10" y="20" width="5" height="5" fill="brown" stroke="black"/>
+
+                <path d="M0,20 H5 L15,0 H10 Z" fill="darkred" stroke="black" />
+                <path d="M5,20 H10 L20,0 H15 Z" fill="darkred" stroke="black" />
+                <path d="M10,20 H15 L25,0 H20 Z" fill="darkred" stroke="black" />
+
+                <path d="M15,20 V25 L25,5 V0 Z" fill="maroon" stroke="black" />
+                <path d="M15,25 V30 L25,10 V5 Z" fill="maroon" stroke="black" />
+
+            </g>
         </defs>
 
         <g *ngIf="isAfternoon">
@@ -51,7 +68,8 @@
         <use xlink:href="#table" x="15" y="280"/>
         <use *ngFor="let onigiri of onigiris" xlink:href="#onigiri" [attr.x]="onigiri.x" y="285"/>
         <use *ngFor="let water of waters" xlink:href="#water" [attr.x]="water.x" y="285"/>
-        <use *ngFor="let land of lands" xlink:href="#farm" [attr.x]="land.x" y="150"/>
+        <use *ngFor="let farm of farms" xlink:href="#farm" [attr.x]="farm.x" y="150"/>
+        <use *ngFor="let construction of constructions" xlink:href="#construction" [attr.x]="construction.x" y="150"/>
         <use *ngFor="let passer of passers" xlink:href="#passer" y="330" [attr.x]="passer.passX"/>
         <use *ngFor="let worker of workers" xlink:href="#worker" [attr.y]="worker.workY" [attr.x]="worker.workX"/>
 
