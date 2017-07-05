@@ -108,9 +108,11 @@ class AppComponent {
       }
     }
     if (elapsedTime % 800 == 0) {
-      lands[(elapsedTime / 800).floor() - 1]?.landType = LandType.Construction;
+      var index = (elapsedTime / 800).floor() - 1;
+      if (lands.length > index) {
+        lands[index].landType = LandType.Construction;
+      }
     }
-
 
     new Timer(new Duration(milliseconds: 5), this.animationFlame);
   }
