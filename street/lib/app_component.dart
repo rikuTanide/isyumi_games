@@ -34,7 +34,7 @@ class AppComponent {
         passer.elapsedTime = 0;
       }
 
-      if (passer.elapsedTime % 20 == 0) {
+      if (passer.elapsedTime % 20 == 5) {
         var product = getProduct(passer.elapsedTime);
 
         if (product == null) {
@@ -57,7 +57,7 @@ class AppComponent {
 
   Product getProduct(int elapsedTime) {
     for (var product in products) {
-      if (product.placeIndex == (elapsedTime / 20)) {
+      if (product.placeIndex == (elapsedTime / 20).floor()) {
         return product;
       }
     }
@@ -89,7 +89,7 @@ class AppComponent {
   }
 
   int getIndex() {
-    for (var x = 0; x < 14; x ++) {
+    for (var x = 0; x < 13; x ++) {
       if (onIndex(x)) {
         continue;
       }
@@ -128,7 +128,7 @@ class Product {
 
   bool get isWater => productType == ProductType.Water;
 
-  int get x => 280 - 20 * placeIndex;
+  int get x => 270 - 20 * placeIndex;
 
 
 }

@@ -9,14 +9,22 @@
                 <path d="M-5,0 H5 V-15 H-5 Z" fill="skyblue"/>
             </g>
             <g id="passer">
-                <path d="M0,0 L20,10 V-10 Z" fill="black" />
+                <path d="M0,0 L20,10 V-10 Z" fill="black"/>
             </g>
+            <g id="table">
+                <path d="M0,0 L-10,10 H260 L270,0 Z" stroke="black" fill="darkred"/>
+                <path d="M-10,10 V30 H260 V10 Z" stroke="black" fill="brown"/>
+                <path d="M260,10 V30 L270,20 V0 Z" stroke="black" fill="maroon"/>
+            </g>
+
         </defs>
-        <use *ngFor="let onigiri of onigiris" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#onigiri"
-             [attr.x]="onigiri.x" y="80"/>
-        <use *ngFor="let water of waters" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#water"
-             [attr.x]="water.x" y="80"/>
-        <use *ngFor="let passer of passers" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#passer" y="100" [attr.x]="passer.x" />
+
+        <rect x="0" y="50" width="290" height="200" fill="green"/>
+        <rect x="0" y="110" width="290" height="40" fill="gray"/>
+        <use xlink:href="#table" x="15" y="80"/>
+        <use *ngFor="let onigiri of onigiris" xlink:href="#onigiri" [attr.x]="onigiri.x" y="85"/>
+        <use *ngFor="let water of waters" xlink:href="#water" [attr.x]="water.x" y="85"/>
+        <use *ngFor="let passer of passers" xlink:href="#passer" y="130" [attr.x]="passer.x"/>
 
 
     </svg>
