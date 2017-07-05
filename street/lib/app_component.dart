@@ -21,6 +21,12 @@ class AppComponent {
     window.requestAnimationFrame(animationFlame);
   }
 
+  Iterable<Product> get onigiris =>
+      products.where((p) => p.productType == ProductType.Onigiri);
+
+  Iterable<Product> get waters =>
+      products.where((p) => p.productType == ProductType.Water);
+
   animationFlame(_) {
     for (var passer in passers) {
       passer.elapsedTime ++;
@@ -107,7 +113,7 @@ class Passer {
 
   int elapsedTime = 0;
 
-  String get d => "M${280 - elapsedTime},100 L${290 - elapsedTime},110 V90 z";
+  int get x => 280 - elapsedTime;
 
 }
 
@@ -122,13 +128,8 @@ class Product {
 
   bool get isWater => productType == ProductType.Water;
 
-  String get onigiriD =>
-      "M${280 - (placeIndex * 20)},80 L${290 - (placeIndex * 20)},80 L${285 -
-          (placeIndex * 20)},70 Z";
+  int get x => 280 - 20 * placeIndex;
 
-  String get waterD =>
-      "M${280 - (placeIndex * 20)},80 H${290 - (placeIndex * 20)} V60 H${280 -
-          (placeIndex * 20)} Z";
 
 }
 
