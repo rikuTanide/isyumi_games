@@ -13,17 +13,51 @@ class AppComponent {
 
   Random random = new Random.secure();
   int money = 50;
-  List<Passer>passers = [new Passer()];
+  List<People>peoples = [
+    new People()
+      ..workPlaceIndex = 0
+      ..jobType = JobType.Farmer,
+    new People()
+      ..workPlaceIndex = 1
+      ..jobType = JobType.Farmer,
+    new People()
+      ..workPlaceIndex = 2
+      ..jobType = JobType.Farmer,
+    new People()
+      ..workPlaceIndex = 3
+      ..jobType = JobType.Farmer,
+    new People()
+      ..workPlaceIndex = 4
+      ..jobType = JobType.Farmer,
+
+  ];
   List<Product> products = [
     new Product(ProductType.Onigiri, 0),
     new Product(ProductType.Water, 1),
+  ];
+  List<Land> lands = [
+    new Land()
+      .. landType = LandType.Farm
+      ..index = 0,
+    new Land()
+      .. landType = LandType.Farm
+      ..index = 1,
+    new Land()
+      .. landType = LandType.Farm
+      ..index = 2,
+    new Land()
+      .. landType = LandType.Farm
+      ..index = 3,
+    new Land()
+      .. landType = LandType.Farm
+      ..index = 4,
   ];
 
   AppComponent() {
     window.requestAnimationFrame(animationFlame);
   }
 
-  bool get isAfternoon => elapsedTime % 600 > 300;
+  bool get isAfternoon => elapsedTime % 800 < 600;
 
   bool get isNight => !isAfternoon;
 
@@ -33,17 +67,21 @@ class AppComponent {
   Iterable<Product> get waters =>
       products.where((p) => p.productType == ProductType.Water);
 
+  Iterable<People> get passers => peoples.where((p) => p.isPasser);
+
+  Iterable<People> get workers => peoples.where((p) => p.isWorker);
+
   animationFlame(_) {
     elapsedTime ++;
 
-    for (var passer in passers) {
-      passer.elapsedTime ++;
-      if (passer.elapsedTime == 320) {
-        passer.elapsedTime = 0;
+    for (var people in peoples) {
+      people.elapsedTime ++;
+      if (people.elapsedTime == 800) {
+        people.elapsedTime = 0;
       }
 
-      if (passer.elapsedTime % 20 == 5) {
-        var product = getProduct(passer.elapsedTime);
+      if (people.elapsedTime % 20 == 5) {
+        var product = getProduct(people.elapsedTime);
 
         if (product == null) {
           continue;
@@ -117,11 +155,71 @@ class AppComponent {
 
 }
 
-class Passer {
+class People {
 
   int elapsedTime = 0;
 
-  int get x => 280 - elapsedTime;
+  int workPlaceIndex;
+
+  JobType jobType;
+
+  bool get isPasser => elapsedTime < 320;
+
+  bool get isWorker => !isPasser;
+
+  int get passX => 280 - elapsedTime;
+
+  int get workPlaceX => workPlaceIndex * 35 + 20 + 15;
+
+  int get workElapsedTime => elapsedTime - 320;
+
+  bool get isGoing => workElapsedTime < workPlaceX;
+
+  bool get isEntry => !isGoing && workElapsedTime < workPlaceX + 30;
+
+  bool get isWorking =>
+      !isGoing && !isEntry && workElapsedTime < workPlaceX + 100;
+
+  bool get isOut =>
+      !isGoing && !isEntry && !isWorking && workElapsedTime < workPlaceX + 130;
+
+
+  bool get isLeave =>
+      !isGoing && !isEntry && !isWorking && !isOut;
+
+  int get workY {
+    if (isEntry) {
+      return 200 - (workElapsedTime - workPlaceX);
+    }
+    if (isWorking) {
+      return 170;
+    }
+    if (isOut) {
+      return 170 + (workElapsedTime - workPlaceX - 100);
+    }
+    return 200;
+  }
+
+
+  int get workX {
+    if (isGoing) {
+      return elapsedTime - 320;
+    }
+    if (isEntry) {
+      return workPlaceX;
+    }
+
+    if (isWorking) {
+      return workPlaceX;
+    }
+    if (isOut) {
+      return workPlaceX;
+    }
+    if (isLeave) {
+      return elapsedTime - 320 - 130;
+    }
+    return 0;
+  }
 
 }
 
@@ -129,6 +227,7 @@ class Product {
 
   final ProductType productType;
   final int placeIndex;
+
 
   Product(this.productType, this.placeIndex);
 
@@ -141,6 +240,10 @@ class Product {
 
 }
 
+enum JobType {
+  Farmer
+}
+
 enum ProductType {
   Onigiri,
   Water
@@ -150,3 +253,14 @@ const OnigiriBuyPrice = 10,
     OnigiriSalePrice = 12,
     WaterBuyPrice = 5,
     WaterSalePrice = 6;
+
+class Land {
+  int index;
+  LandType landType;
+
+  int get x => 20 + (index * 35);
+}
+
+enum LandType {
+  Farm
+}
