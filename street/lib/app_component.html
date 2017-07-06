@@ -40,6 +40,14 @@
                 <path d="M15,25 V30 L25,10 V5 Z" fill="maroon" stroke="black" />
 
             </g>
+            <g id="bar">
+                <path d="M5,5 V15 H25 V5 Z" stroke="black" fill="brown" />
+                <path d="M4,25 V10 H26 V25" stroke="turquoise" fill="transparent" />
+                <path d="M5,11 V25 H25 V11" stroke="black" fill="darkred" />
+                <path d="M10,11 V25" stroke="turquoise" />
+                <path d="M20,11 V25" stroke="turquoise" />
+                <path d="M0,7 L15,0 30,7" stroke="black" fill="transparent"/>
+            </g>
         </defs>
 
         <g *ngIf="isAfternoon">
@@ -72,6 +80,7 @@
         <use *ngFor="let construction of constructions" xlink:href="#construction" [attr.x]="construction.x" y="150"/>
         <use *ngFor="let passer of passers" xlink:href="#passer" y="330" [attr.x]="passer.passX"/>
         <use *ngFor="let worker of workers" xlink:href="#worker" [attr.y]="worker.workY" [attr.x]="worker.workX"/>
+        <use xlink:href="#bar" y="300" x="100" />
 
     </svg>
 </div>

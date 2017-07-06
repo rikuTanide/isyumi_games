@@ -108,6 +108,13 @@ class AppComponent {
       }
     }
     if (elapsedTime % 800 == 0) {
+      for (var construction in constructions) {
+        construction.buildingCount ++;
+        if (construction.buildingCount == 5) {
+
+        }
+      }
+
       var index = (elapsedTime / 800).floor() - 1;
       if (lands.length > index) {
         lands[index].landType = LandType.Construction;
@@ -275,6 +282,8 @@ const OnigiriBuyPrice = 10,
 class Land {
   int index;
   LandType landType;
+
+  int buildingCount = 0;
 
   int get x => 20 + (index * 35);
 }
