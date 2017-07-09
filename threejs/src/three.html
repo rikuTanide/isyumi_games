@@ -1,11 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>軸オブジェクト</title>
+    <script src="./three.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0
+        }
+
+        div#canvas-frame {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+    <script>
+        window.addEventListener('load', function () {
+            threeStart();
+        });
+
+        function threeStart() {
+            initThree();
+            initCamera();
+            initLight();
+            initObject();
+            loop();
+        }
+
+        var renderer,
+            scene,
+            canvasFrame;
+
+        function initThree() {
+            canvasFrame = document.getElementById('canvas-frame');
+            renderer = new THREE.WebGLRenderer({antialias: true});
+
+            if (!renderer) alert('Three.js の初期化に失敗しました');
+            renderer.setSize(canvasFrame.clientWidth, canvasFrame.clientHeight);
+            canvasFrame.appendChild(renderer.domElement);
+            renderer.setClearColor(0x000000, 1.0);
+            scene = new THREE.Scene();
+        }
+
+        var camera;
+        function initCamera() {
+            camera = new THREE.PerspectiveCamera(45, canvasFrame.clientWidth / canvasFrame.clientHeight, 1, 10000);
+            camera.position.set(150, 150, 100);
+            camera.up.set(0, 0, 1);
+            camera.lookAt({x: 0, y: 0, z: 0});
+        }
+
+        var pointLight;
+        var lightHelper;
+        function initLight() {
+            pointLight = new THREE.PointLight(0xFFFFFF, 1, 0);
+            pointLight.position.set(0, 0, 10);
+            scene.add(pointLight);
+            lightHelper = new THREE.PointLightHelper(pointLight, 5);
+            scene.add(lightHelper);
+
+        }
+        var axis, //軸オブジェクト
+            cube,  //直方体オブジェクト
+            torus, //トーラスオブジェクト
+            plane; //直方体オブジェクト
+        function initObject() {
+            axis = new THREE.AxisHelper(100);
+            scene.add(axis);
+            axis.position.set(0, 0, 0);
+
+            var geometry_1 = new THREE.CubeGeometry(20, 20, 20);
+            var material_1 = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
+            cube = new THREE.Mesh(geometry_1, material_1);
+            scene.add(cube);
+            cube.position.set(0, 40, 30);
+
+            var geometry_2 = new THREE.TorusGeometry(20, 5, 50, 50);
+            var material_2 = new THREE.MeshLambertMaterial({ color: 0xFFE98D });
+            torus = new THREE.Mesh(geometry_2, material_2);
+            scene.add(torus);
+            torus.position.set(30, -10, 30);
+
+            var geometry_3 = new THREE.PlaneGeometry(200, 200, 100, 100);
+            var material_3 = new THREE.MeshLambertMaterial({ color: 0xEEEEEE });
+            plane = new THREE.Mesh(geometry_3, material_3);
+            scene.add(plane);
+        }
+
+
+        var step = 0; //ステップ数
+        function loop() {
+
+            step++;
+            cube.rotation.set(step / 100, 0, 0);
+            torus.rotation.set(step / 100, 0, 0);
+
+            var x = 70 * Math.cos(step / 100);
+            var y = 70 * Math.sin(step / 100);
+            var z = 30 * Math.cos(step / 200) + 32;
+
+            pointLight.position.set(x, y, z);
+
+            renderer.render(scene, camera);
+
+            requestAnimationFrame(loop);
+        }
+
+    </script>
 </head>
 <body>
-<script src="three.js"></script>
-<script src="main.js"></script>
+<div id="canvas-frame"></div>
 </body>
 </html>
