@@ -32,3 +32,8 @@ gulp.task('webserver', function () {
             livereload: true,
         }))
 });
+
+gulp.task('deploy',function () {
+    return gulp.src(['./build/src/**/*.html', './build/src/**/*.js'])
+        .pipe(gulp.dest('../hosting/public/pinball'))
+});

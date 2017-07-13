@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+
+  },
+  "devDependencies": {
+    "typescript": "^2.4.1",
     "gulp": "^3.9.1",
     "gulp-mocha": "^4.3.1",
     "gulp-sass": "^3.1.0",
@@ -17,8 +21,5 @@
     "gulp-util": "^3.0.8",
     "gulp-webpack": "^1.5.0",
     "gulp-webserver": "^0.9.1"
-  },
-  "devDependencies": {
-    "typescript": "^2.4.1"
   }
 }
