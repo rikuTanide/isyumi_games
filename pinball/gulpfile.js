@@ -16,7 +16,7 @@ gulp.task('tsc', function () {
 });
 
 gulp.task('dest', function () {
-    return gulp.src(['./work/**/*.html', './work/**/*.json'])
+    return gulp.src(['./work/**/*.html', './work/**/*.js'])
         .pipe(gulp.dest('./build/'))
 });
 
@@ -24,7 +24,11 @@ gulp.task('default', function () {
     gulp.run(['dest', 'tsc']);
 });
 
-gulp.task('webserver', function () {
+gulp.task('watch', function () {
+    return gulp.watch(['./work/src/**/*.js'], ['dest']);
+});
+
+gulp.task('webserver', ['watch'], function () {
     gulp.src('./build/src/')
         .pipe(webserver({
             host: '0.0.0.0',
@@ -33,7 +37,7 @@ gulp.task('webserver', function () {
         }))
 });
 
-gulp.task('deploy',function () {
+gulp.task('deploy', function () {
     return gulp.src(['./build/src/**/*.html', './build/src/**/*.js'])
         .pipe(gulp.dest('../hosting/public/pinball'))
 });
