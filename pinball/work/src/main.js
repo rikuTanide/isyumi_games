@@ -27,7 +27,7 @@ var wall_right = Bodies.rectangle(295, 530 / 2, 10, 530, {isStatic: true});
 // var wall_bottom = Bodies.rectangle(150, 465, 300, 10, {isStatic: true, restitution: 1});
 var wall_top = Bodies.rectangle(150, 5, 300, 10, {isStatic: true});
 
-var ball = Bodies.circle(100, 100, 10, {
+var ball = Bodies.circle(50, 50, 10, {
     friction: 1,
     restitution: 1,
 });
@@ -57,6 +57,41 @@ var pin_left3 = Bodies.rectangle(70, 490, 5, 100, {isStatic: true});
 World.add(world, [ball, wall_left, wall_right, wall_top,
     bumper_right, constraint_pivot_right, pin_right1, pin_right2, pin_right3,
     bumper_left, constraint_pivot_left, pin_left1, pin_left2, pin_left3]);
+
+
+/* ここから障害物 */
+
+var circle1 = Bodies.circle(100, 100, 20);
+var constraint_circle1 = Constraint.create({
+    pointA: {x: 100, y: 100,},
+    bodyB: circle1,
+    stiffness: 1,
+    length: 30,
+});
+
+var circle2 = Bodies.circle(220, 100, 20);
+var constraint_circle2 = Constraint.create({
+    pointA: {x: 220, y: 100,},
+    bodyB: circle2,
+    stiffness: 1,
+    length: 30,
+});
+
+var circle3 = Bodies.circle(150, 50, 20);
+var constraint_circle3 = Constraint.create({
+    pointA: {x: 150, y: 50,},
+    bodyB: circle3,
+    stiffness: 1,
+    length: 30,
+});
+
+
+World.add(world, [
+    circle1, constraint_circle1,
+    circle2, constraint_circle2,
+    circle3, constraint_circle3,
+
+]);
 
 Render.run(render);
 
