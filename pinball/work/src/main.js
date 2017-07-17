@@ -33,25 +33,25 @@ var ball = Bodies.circle(100, 100, 10, {
 });
 
 
-var bumper_right = Bodies.rectangle(200, 410, 80, 10);
+var bumper_right = Bodies.rectangle(200, 420, 80, 20);
 var constraint_pivot_right = Constraint.create({
-    pointA: {x: 240, y: 410},
+    pointA: {x: 240, y: 420},
     bodyB: bumper_right,
     pointB: {x: 40, y: 0},
 });
-var pin_right1 = Bodies.rectangle(270, 330, 5, 100, {isStatic: true, angle: Math.PI / 3.5});
-var pin_right2 = Bodies.rectangle(230, 380, 5, 50, {isStatic: true});
-var pin_right3 = Bodies.rectangle(230, 470, 5, 100, {isStatic: true});
+var pin_right1 = Bodies.rectangle(300, 360, 100, 100, {isStatic: true, angle: Math.PI / 3.5});
+var pin_right2 = Bodies.rectangle(280, 380, 100, 50, {isStatic: true});
+var pin_right3 = Bodies.rectangle(230, 490, 5, 100, {isStatic: true});
 
-var bumper_left = Bodies.rectangle(100, 410, 80, 10);
+var bumper_left = Bodies.rectangle(100, 420, 80, 20);
 var constraint_pivot_left = Constraint.create({
-    pointA: {x: 60, y: 410},
+    pointA: {x: 60, y: 420},
     bodyB: bumper_left,
     pointB: {x: -40, y: 0},
 });
-var pin_left1 = Bodies.rectangle(30, 330, 5, 100, {isStatic: true, angle: Math.PI / 1.5});
-var pin_left2 = Bodies.rectangle(70, 380, 5, 50, {isStatic: true});
-var pin_left3 = Bodies.rectangle(70, 470, 5, 100, {isStatic: true});
+var pin_left1 = Bodies.rectangle(0, 370, 100, 100, {isStatic: true, angle: Math.PI / 1.5});
+var pin_left2 = Bodies.rectangle(20, 380, 100, 50, {isStatic: true});
+var pin_left3 = Bodies.rectangle(70, 490, 5, 100, {isStatic: true});
 
 
 World.add(world, [ball, wall_left, wall_right, wall_top,
@@ -61,15 +61,15 @@ World.add(world, [ball, wall_left, wall_right, wall_top,
 Render.run(render);
 
 function left() {
-    Body.applyForce(bumper_left, bumper_left.position, Vector.create(0, -0.06));
+    Body.applyForce(bumper_left, bumper_left.position, Vector.create(0, -0.15));
 }
 
 function right() {
-    Body.applyForce(bumper_right, bumper_right.position, Vector.create(0, -0.06));
+    Body.applyForce(bumper_right, bumper_right.position, Vector.create(0, -0.15));
 }
 
 function space() {
-    Body.setPosition(ball, {x: 80, y: 15});
+    Body.setPosition(ball, {x: 100, y: 10});
     Body.setVelocity(ball, {x: 0, y: 0});
 
 }
