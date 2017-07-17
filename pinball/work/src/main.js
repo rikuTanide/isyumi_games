@@ -39,8 +39,9 @@ var constraint_pivot_right = Constraint.create({
     bodyB: bumper_right,
     pointB: {x: 40, y: 0},
 });
-var pin_right1 = Bodies.rectangle(230, 200, 5, 400, {isStatic: true});
-var pin_right2 = Bodies.rectangle(230, 470, 5, 100, {isStatic: true});
+var pin_right1 = Bodies.rectangle(270, 330, 5, 100, {isStatic: true, angle: Math.PI / 3.5});
+var pin_right2 = Bodies.rectangle(230, 380, 5, 50, {isStatic: true});
+var pin_right3 = Bodies.rectangle(230, 470, 5, 100, {isStatic: true});
 
 var bumper_left = Bodies.rectangle(100, 410, 80, 10);
 var constraint_pivot_left = Constraint.create({
@@ -48,12 +49,14 @@ var constraint_pivot_left = Constraint.create({
     bodyB: bumper_left,
     pointB: {x: -40, y: 0},
 });
-var pin_left1 = Bodies.rectangle(70, 200, 5, 400, {isStatic: true});
-var pin_left2 = Bodies.rectangle(70, 470, 5, 100, {isStatic: true});
+var pin_left1 = Bodies.rectangle(30, 330, 5, 100, {isStatic: true, angle: Math.PI / 1.5});
+var pin_left2 = Bodies.rectangle(70, 380, 5, 50, {isStatic: true});
+var pin_left3 = Bodies.rectangle(70, 470, 5, 100, {isStatic: true});
 
 
-World.add(world, [ball, wall_left, wall_right, wall_top, bumper_right, constraint_pivot_right, pin_right1, pin_right2,
-    bumper_left, constraint_pivot_left, pin_left1, pin_left2]);
+World.add(world, [ball, wall_left, wall_right, wall_top,
+    bumper_right, constraint_pivot_right, pin_right1, pin_right2, pin_right3,
+    bumper_left, constraint_pivot_left, pin_left1, pin_left2, pin_left3]);
 
 Render.run(render);
 
@@ -84,13 +87,13 @@ document.addEventListener('keydown', function (e) {
 
 });
 
-document.getElementById('left').addEventListener('click',function(){
+document.getElementById('left').addEventListener('click', function () {
     left();
 });
-document.getElementById('right').addEventListener('click',function(){
+document.getElementById('right').addEventListener('click', function () {
     right();
 });
-document.getElementById('space').addEventListener('click',function(){
+document.getElementById('space').addEventListener('click', function () {
     space();
 });
 
