@@ -7,7 +7,8 @@ var Engine = Matter.Engine,
     Mouse = Matter.Mouse,
     Body = Matter.Body,
     Vector = Matter.Vector,
-    Runner = Matter.Runner;
+    Runner = Matter.Runner,
+    Events = Matter.Events;
 
 
 var engine = Engine.create();
@@ -24,14 +25,13 @@ var render = Render.create({
 
 var wall_left = Bodies.rectangle(0, 530 / 2, 10, 530, {isStatic: true});
 var wall_right = Bodies.rectangle(295, 530 / 2, 10, 530, {isStatic: true});
-// var wall_bottom = Bodies.rectangle(150, 465, 300, 10, {isStatic: true, restitution: 1});
 var wall_top = Bodies.rectangle(150, 5, 300, 10, {isStatic: true});
 
 var ball = Bodies.circle(50, 50, 10, {
     friction: 1,
     restitution: 1,
+    label: "ball",
 });
-
 
 var bumper_right = Bodies.rectangle(200, 420, 80, 20);
 var constraint_pivot_right = Constraint.create({
@@ -61,7 +61,9 @@ World.add(world, [ball, wall_left, wall_right, wall_top,
 
 /* ここから障害物 */
 
-var circle1 = Bodies.circle(100, 100, 20);
+var circle1 = Bodies.circle(100, 100, 20, {
+    label: 'circle1',
+});
 var constraint_circle1 = Constraint.create({
     pointA: {x: 100, y: 100,},
     bodyB: circle1,
@@ -69,20 +71,28 @@ var constraint_circle1 = Constraint.create({
     length: 30,
 });
 
-var circle2 = Bodies.circle(220, 100, 20);
+var circle2 = Bodies.circle(220, 100, 20, {
+    label: 'circle2',
+
+});
 var constraint_circle2 = Constraint.create({
     pointA: {x: 220, y: 100,},
     bodyB: circle2,
     stiffness: 1,
     length: 30,
+
 });
 
-var circle3 = Bodies.circle(150, 50, 20);
+var circle3 = Bodies.circle(150, 50, 20, {
+    label: 'circle3',
+
+});
 var constraint_circle3 = Constraint.create({
     pointA: {x: 150, y: 50,},
     bodyB: circle3,
     stiffness: 1,
     length: 30,
+
 });
 
 
@@ -108,6 +118,33 @@ function space() {
     Body.setVelocity(ball, {x: 0, y: 0});
 
 }
+
+var count = 0;
+var board = document.getElementById('score');
+function countup() {
+    count++;
+    board.textContent = count;
+}
+
+Matter.Events.on(engine, 'collisionStart', function (event) {
+    var i, pair,
+        length = event.pairs.length;
+
+    for (i = 0; i < length; i++) {
+        pair = event.pairs[i];
+        var al = pair.bodyA.label;
+        var bl = pair.bodyB.label;
+
+        if (al == 'ball' || bl == 'ball') {
+            if (al == 'circle1' || bl == 'circle1' || al == 'circle2' || bl == 'circle2' || al == 'circle3' || bl == 'circle3') {
+                countup();
+            }
+
+        }
+
+    }
+});
+
 
 document.addEventListener('keydown', function (e) {
     if (e.keyCode == 32) {
@@ -135,3 +172,49 @@ document.getElementById('space').addEventListener('click', function () {
 
 var runner = Runner.create();
 Runner.run(runner, engine);
+
+
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, 300 / 470, 1, 10000);
+camera.position.z = 450;
+
+var geometry = new THREE.BoxGeometry(200, 200, 200);
+var material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
+
+var pin1_geometry_right = new THREE.BoxGeometry(100, 100, 1);
+var mesh = new THREE.Mesh(pin1_geometry_right, material);
+mesh.position.set(-(300 / 2), ( 470 / 2) - 370, 0);
+mesh.rotation.z = Math.PI / -1.5;
+scene.add(mesh);
+
+
+var pin2_geometry_right = new THREE.BoxGeometry(100, 50, 1);
+var mesh = new THREE.Mesh(pin2_geometry_right, material);
+mesh.position.set(-130, (470 / 2) - 380, 0);
+scene.add(mesh);
+
+var pin3_geometry_right = new THREE.BoxGeometry(5, 100, 1);
+var mesh = new THREE.Mesh(pin3_geometry_right, material);
+mesh.position.set( (300 / 2) - (300 - 70), (470 / 2) - 490, 0);
+scene.add(mesh);
+
+
+
+
+// var pin_left1 = Bodies.rectangle(0, 370, 100, 100, {isStatic: true, angle: Math.PI / 1.5});
+
+// var pin_left2 = Bodies.rectangle(20, 380, 100, 50, {isStatic: true});
+// var pin_left3 = Bodies.rectangle(70, 490, 5, 100, {isStatic: true});
+
+renderer = new THREE.WebGLRenderer();
+renderer.setSize(300, 430);
+
+document.body.appendChild(renderer.domElement);
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    renderer.render(scene, camera);
+}
+
+animate();
