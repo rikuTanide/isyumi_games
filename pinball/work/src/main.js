@@ -114,7 +114,7 @@ function right() {
 }
 
 function space() {
-    Body.setPosition(ball, {x: 100, y: 10});
+    Body.setPosition(ball, {x: 290, y: 10});
     Body.setVelocity(ball, {x: 0, y: 0});
 
 }
@@ -179,7 +179,7 @@ var camera = new THREE.PerspectiveCamera(75, 300 / 470, 1, 10000);
 camera.position.z = 450;
 
 var geometry = new THREE.BoxGeometry(200, 200, 200);
-var material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
+var material = new THREE.MeshBasicMaterial({color: 0xff0000});
 
 var pin1_geometry_left = new THREE.BoxGeometry(100, 100, 1);
 var mesh = new THREE.Mesh(pin1_geometry_left, material);
@@ -203,11 +203,13 @@ var bumper_left_geometry_mesh = new THREE.Mesh(bumper_left_geometry, material);
 bumper_left_geometry_mesh.position.set((300 / 2) - (300 - 100), (470 / 2) - 420, 0);
 scene.add(bumper_left_geometry_mesh);
 
+var pin_right1 = Bodies.rectangle(300, 360, 100, 100, {isStatic: true, angle: Math.PI / 3.5});
+var pin_right2 = Bodies.rectangle(280, 380, 100, 50, {isStatic: true});
 
 var pin1_geometry_right = new THREE.BoxGeometry(100, 100, 1);
-var mesh = new THREE.Mesh(pin1_geometry_left, material);
-mesh.position.set((300 / 2) - (300 - 300), ( 470 / 2) - 370, 0);
-mesh.rotation.z = Math.PI / 1.5;
+var mesh = new THREE.Mesh(pin1_geometry_right, material);
+mesh.position.set((300 / 2) - (300 - 300), ( 470 / 2) - 360, 0);
+mesh.rotation.z = Math.PI / - 3.5;
 scene.add(mesh);
 
 var pin2_geometry_right = new THREE.BoxGeometry(100, 50, 1);
@@ -230,7 +232,62 @@ var ball_mesh = new THREE.Mesh(ball_geometry, material);
 scene.add(ball_mesh);
 
 
+var circle1_geometry = new THREE.SphereGeometry(20);
+var circle1_mesh = new THREE.Mesh(circle1_geometry, material);
+scene.add(circle1_mesh);
 
+var line1_geometry = new THREE.Geometry();
+line1_geometry.vertices.push(new THREE.Vector3((300 / 2) - (300 - 100), (470 / 2) - 100, 0));
+line1_geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+
+var line = new THREE.Line(line1_geometry, new THREE.LineBasicMaterial({color: 0xff0000}));
+
+scene.add(line);
+
+var circle2_geometry = new THREE.SphereGeometry(20);
+var circle2_mesh = new THREE.Mesh(circle2_geometry, material);
+scene.add(circle2_mesh);
+
+var line2_geometry = new THREE.Geometry();
+line2_geometry.vertices.push(new THREE.Vector3((300 / 2) - (300 - 220), (470 / 2) - 100, 0));
+line2_geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+var line = new THREE.Line(line2_geometry, new THREE.LineBasicMaterial({color: 0xff0000}));
+
+scene.add(line);
+
+
+var circle3_geometry = new THREE.SphereGeometry(20);
+var circle3_mesh = new THREE.Mesh(circle3_geometry, material);
+scene.add(circle3_mesh);
+
+
+var line3_geometry = new THREE.Geometry();
+line3_geometry.vertices.push(new THREE.Vector3((300 / 2) - (300 - 150), (470 / 2) - 50, 0));
+line3_geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+var line = new THREE.Line(line3_geometry, new THREE.LineBasicMaterial({color: 0xff0000}));
+scene.add(line);
+
+
+
+var wall_left = Bodies.rectangle(0, 530 / 2, 10, 530, {isStatic: true});
+var wall_right = Bodies.rectangle(295, 530 / 2, 10, 530, {isStatic: true});
+var wall_top = Bodies.rectangle(150, 5, 300, 10, {isStatic: true});
+
+
+var wall = new THREE.BoxGeometry(10, 530, 1);
+var mesh = new THREE.Mesh(wall, material);
+mesh.position.set((300 / 2 ) - (300), (470 / 2) - (530 / 2), 0);
+scene.add(mesh);
+
+var wall = new THREE.BoxGeometry(10, 530, 1);
+var mesh = new THREE.Mesh(wall, material);
+mesh.position.set((300 / 2 ) - (300 - 295), (470 / 2) - (530 / 2), 0);
+scene.add(mesh);
+
+var wall = new THREE.BoxGeometry(300, 10, 1);
+var mesh = new THREE.Mesh(wall, material);
+mesh.position.set((300 / 2 ) - (300 - 150), (470 / 2) - 5, 0);
+scene.add(mesh);
 
 renderer = new THREE.WebGLRenderer();
 renderer.setSize(300, 430);
@@ -251,6 +308,23 @@ function animate() {
     ball_mesh.position.x = (300 / 2) - (300 - ball.position.x);
     ball_mesh.position.y = (470 / 2) - ball.position.y;
 
+    circle1_mesh.position.x = (300 / 2) - (300 - circle1.position.x);
+    circle1_mesh.position.y = (470 / 2) - circle1.position.y;
+
+    line1_geometry.vertices[1] = new THREE.Vector3((300 / 2) - (300 - circle1.position.x), (470 / 2) - circle1.position.y, 0);
+    line1_geometry.verticesNeedUpdate = true
+
+    circle2_mesh.position.x = (300 / 2) - (300 - circle2.position.x);
+    circle2_mesh.position.y = (470 / 2) - circle2.position.y;
+
+    line2_geometry.vertices[1] = new THREE.Vector3((300 / 2) - (300 - circle2.position.x), (470 / 2) - circle2.position.y, 0);
+    line2_geometry.verticesNeedUpdate = true
+
+    circle3_mesh.position.x = (300 / 2) - (300 - circle3.position.x);
+    circle3_mesh.position.y = (470 / 2) - circle3.position.y;
+
+    line3_geometry.vertices[1] = new THREE.Vector3((300 / 2) - (300 - circle3.position.x), (470 / 2) - circle3.position.y, 0);
+    line3_geometry.verticesNeedUpdate = true
 
     renderer.render(scene, camera);
 }
