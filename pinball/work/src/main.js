@@ -181,30 +181,56 @@ camera.position.z = 450;
 var geometry = new THREE.BoxGeometry(200, 200, 200);
 var material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
 
-var pin1_geometry_right = new THREE.BoxGeometry(100, 100, 1);
-var mesh = new THREE.Mesh(pin1_geometry_right, material);
+var pin1_geometry_left = new THREE.BoxGeometry(100, 100, 1);
+var mesh = new THREE.Mesh(pin1_geometry_left, material);
 mesh.position.set(-(300 / 2), ( 470 / 2) - 370, 0);
 mesh.rotation.z = Math.PI / -1.5;
 scene.add(mesh);
 
 
+var pin2_geometry_left = new THREE.BoxGeometry(100, 50, 1);
+var mesh = new THREE.Mesh(pin2_geometry_left, material);
+mesh.position.set(-130, (470 / 2) - 380, 0);
+scene.add(mesh);
+
+var pin3_geometry_left = new THREE.BoxGeometry(5, 100, 1);
+var mesh = new THREE.Mesh(pin3_geometry_left, material);
+mesh.position.set((300 / 2) - (300 - 70), (470 / 2) - 490, 0);
+scene.add(mesh);
+
+var bumper_left_geometry = new THREE.BoxGeometry(80, 20, 1);
+var bumper_left_geometry_mesh = new THREE.Mesh(bumper_left_geometry, material);
+bumper_left_geometry_mesh.position.set((300 / 2) - (300 - 100), (470 / 2) - 420, 0);
+scene.add(bumper_left_geometry_mesh);
+
+
+var pin1_geometry_right = new THREE.BoxGeometry(100, 100, 1);
+var mesh = new THREE.Mesh(pin1_geometry_left, material);
+mesh.position.set((300 / 2) - (300 - 300), ( 470 / 2) - 370, 0);
+mesh.rotation.z = Math.PI / 1.5;
+scene.add(mesh);
+
 var pin2_geometry_right = new THREE.BoxGeometry(100, 50, 1);
 var mesh = new THREE.Mesh(pin2_geometry_right, material);
-mesh.position.set(-130, (470 / 2) - 380, 0);
+mesh.position.set((300 / 2 ) - (300 - 280), (470 / 2) - 380, 0);
 scene.add(mesh);
 
 var pin3_geometry_right = new THREE.BoxGeometry(5, 100, 1);
 var mesh = new THREE.Mesh(pin3_geometry_right, material);
-mesh.position.set( (300 / 2) - (300 - 70), (470 / 2) - 490, 0);
+mesh.position.set((300 / 2) - (300 - 230), (470 / 2) - 490, 0);
 scene.add(mesh);
 
+var bumper_right_geometry = new THREE.BoxGeometry(80, 20, 1);
+var bumper_right_geometry_mesh = new THREE.Mesh(bumper_right_geometry, material);
+bumper_right_geometry_mesh.position.set((300 / 2) - (300 - 200), (470 / 2) - 420, 0);
+scene.add(bumper_right_geometry_mesh);
+
+var ball_geometry = new THREE.SphereGeometry(10);
+var ball_mesh = new THREE.Mesh(ball_geometry, material);
+scene.add(ball_mesh);
 
 
 
-// var pin_left1 = Bodies.rectangle(0, 370, 100, 100, {isStatic: true, angle: Math.PI / 1.5});
-
-// var pin_left2 = Bodies.rectangle(20, 380, 100, 50, {isStatic: true});
-// var pin_left3 = Bodies.rectangle(70, 490, 5, 100, {isStatic: true});
 
 renderer = new THREE.WebGLRenderer();
 renderer.setSize(300, 430);
@@ -213,6 +239,18 @@ document.body.appendChild(renderer.domElement);
 
 function animate() {
     requestAnimationFrame(animate);
+
+    bumper_left_geometry_mesh.rotation.z = -bumper_left.angle;
+    bumper_left_geometry_mesh.position.x = (300 / 2) - (300 - bumper_left.position.x);
+    bumper_left_geometry_mesh.position.y = (470 / 2) - bumper_left.position.y;
+
+    bumper_right_geometry_mesh.rotation.z = -bumper_right.angle;
+    bumper_right_geometry_mesh.position.x = (300 / 2) - (300 - bumper_right.position.x);
+    bumper_right_geometry_mesh.position.y = (470 / 2) - bumper_right.position.y;
+
+    ball_mesh.position.x = (300 / 2) - (300 - ball.position.x);
+    ball_mesh.position.y = (470 / 2) - ball.position.y;
+
 
     renderer.render(scene, camera);
 }
