@@ -13,14 +13,6 @@ var Engine = Matter.Engine,
 
 var engine = Engine.create();
 var world = engine.world;
-var render = Render.create({
-    element: document.getElementById('view'),
-    engine: engine,
-    options: {
-        width: 300,
-        height: 470,
-    }
-});
 
 
 var wall_left = Bodies.rectangle(0, 530 / 2, 10, 530, {isStatic: true});
@@ -33,7 +25,7 @@ var ball = Bodies.circle(50, 50, 10, {
     label: "ball",
 });
 
-var bumper_right = Bodies.rectangle(200, 420, 80, 20);
+var bumper_right = Bodies.rectangle(200, 420, 90, 20);
 var constraint_pivot_right = Constraint.create({
     pointA: {x: 240, y: 420},
     bodyB: bumper_right,
@@ -43,7 +35,7 @@ var pin_right1 = Bodies.rectangle(300, 360, 100, 100, {isStatic: true, angle: Ma
 var pin_right2 = Bodies.rectangle(280, 380, 100, 50, {isStatic: true});
 var pin_right3 = Bodies.rectangle(230, 490, 5, 100, {isStatic: true});
 
-var bumper_left = Bodies.rectangle(100, 420, 80, 20);
+var bumper_left = Bodies.rectangle(100, 420, 90, 20);
 var constraint_pivot_left = Constraint.create({
     pointA: {x: 60, y: 420},
     bodyB: bumper_left,
@@ -103,14 +95,13 @@ World.add(world, [
 
 ]);
 
-Render.run(render);
 
 function left() {
-    Body.applyForce(bumper_left, bumper_left.position, Vector.create(0, -0.15));
+    Body.applyForce(bumper_left, bumper_left.position, Vector.create(0, -0.18));
 }
 
 function right() {
-    Body.applyForce(bumper_right, bumper_right.position, Vector.create(0, -0.15));
+    Body.applyForce(bumper_right, bumper_right.position, Vector.create(0, -0.18));
 }
 
 function space() {
@@ -175,11 +166,13 @@ Runner.run(runner, engine);
 
 
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, 300 / 470, 1, 10000);
-camera.position.z = 450;
+var width = 300;
+var height = 470;
+var camera = new THREE.OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 10000);
+camera.position.z = 300;
 
 var geometry = new THREE.BoxGeometry(200, 200, 200);
-var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+var material = new THREE.MeshLambertMaterial({color: 0xffffff});
 
 var pin1_geometry_left = new THREE.BoxGeometry(100, 100, 1);
 var mesh = new THREE.Mesh(pin1_geometry_left, material);
@@ -198,18 +191,15 @@ var mesh = new THREE.Mesh(pin3_geometry_left, material);
 mesh.position.set((300 / 2) - (300 - 70), (470 / 2) - 490, 0);
 scene.add(mesh);
 
-var bumper_left_geometry = new THREE.BoxGeometry(80, 20, 1);
+var bumper_left_geometry = new THREE.BoxGeometry(90, 20, 1);
 var bumper_left_geometry_mesh = new THREE.Mesh(bumper_left_geometry, material);
 bumper_left_geometry_mesh.position.set((300 / 2) - (300 - 100), (470 / 2) - 420, 0);
 scene.add(bumper_left_geometry_mesh);
 
-var pin_right1 = Bodies.rectangle(300, 360, 100, 100, {isStatic: true, angle: Math.PI / 3.5});
-var pin_right2 = Bodies.rectangle(280, 380, 100, 50, {isStatic: true});
-
 var pin1_geometry_right = new THREE.BoxGeometry(100, 100, 1);
 var mesh = new THREE.Mesh(pin1_geometry_right, material);
 mesh.position.set((300 / 2) - (300 - 300), ( 470 / 2) - 360, 0);
-mesh.rotation.z = Math.PI / - 3.5;
+mesh.rotation.z = Math.PI / -3.5;
 scene.add(mesh);
 
 var pin2_geometry_right = new THREE.BoxGeometry(100, 50, 1);
@@ -222,17 +212,23 @@ var mesh = new THREE.Mesh(pin3_geometry_right, material);
 mesh.position.set((300 / 2) - (300 - 230), (470 / 2) - 490, 0);
 scene.add(mesh);
 
-var bumper_right_geometry = new THREE.BoxGeometry(80, 20, 1);
+var bumper_right_geometry = new THREE.BoxGeometry(90, 20, 1);
 var bumper_right_geometry_mesh = new THREE.Mesh(bumper_right_geometry, material);
 bumper_right_geometry_mesh.position.set((300 / 2) - (300 - 200), (470 / 2) - 420, 0);
 scene.add(bumper_right_geometry_mesh);
 
 var ball_geometry = new THREE.SphereGeometry(10);
-var ball_mesh = new THREE.Mesh(ball_geometry, material);
+var ball_mesh = new THREE.Mesh(ball_geometry, new THREE.MeshLambertMaterial({color: 0x00ff00}));
 scene.add(ball_mesh);
 
 
-var circle1_geometry = new THREE.SphereGeometry(20);
+var ball_l = new THREE.PointLight(0x00ff00);
+scene.add(ball_l);
+var ball_l_h = new THREE.PointLightHelper(ball_l, 10);
+scene.add(ball_l_h);
+
+
+var circle1_geometry = new THREE.SphereGeometry(20,50,50);
 var circle1_mesh = new THREE.Mesh(circle1_geometry, material);
 scene.add(circle1_mesh);
 
@@ -240,23 +236,23 @@ var line1_geometry = new THREE.Geometry();
 line1_geometry.vertices.push(new THREE.Vector3((300 / 2) - (300 - 100), (470 / 2) - 100, 0));
 line1_geometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-var line = new THREE.Line(line1_geometry, new THREE.LineBasicMaterial({color: 0xff0000}));
+var line = new THREE.Line(line1_geometry, new THREE.LineBasicMaterial({color: 0xffffff}));
 
 scene.add(line);
 
-var circle2_geometry = new THREE.SphereGeometry(20);
+var circle2_geometry = new THREE.SphereGeometry(20,50,50);
 var circle2_mesh = new THREE.Mesh(circle2_geometry, material);
 scene.add(circle2_mesh);
 
 var line2_geometry = new THREE.Geometry();
 line2_geometry.vertices.push(new THREE.Vector3((300 / 2) - (300 - 220), (470 / 2) - 100, 0));
 line2_geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-var line = new THREE.Line(line2_geometry, new THREE.LineBasicMaterial({color: 0xff0000}));
+var line = new THREE.Line(line2_geometry, new THREE.LineBasicMaterial({color: 0xffffff}));
 
 scene.add(line);
 
 
-var circle3_geometry = new THREE.SphereGeometry(20);
+var circle3_geometry = new THREE.SphereGeometry(20, 50, 50);
 var circle3_mesh = new THREE.Mesh(circle3_geometry, material);
 scene.add(circle3_mesh);
 
@@ -264,14 +260,8 @@ scene.add(circle3_mesh);
 var line3_geometry = new THREE.Geometry();
 line3_geometry.vertices.push(new THREE.Vector3((300 / 2) - (300 - 150), (470 / 2) - 50, 0));
 line3_geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-var line = new THREE.Line(line3_geometry, new THREE.LineBasicMaterial({color: 0xff0000}));
+var line = new THREE.Line(line3_geometry, new THREE.LineBasicMaterial({color: 0xffffff}));
 scene.add(line);
-
-
-
-var wall_left = Bodies.rectangle(0, 530 / 2, 10, 530, {isStatic: true});
-var wall_right = Bodies.rectangle(295, 530 / 2, 10, 530, {isStatic: true});
-var wall_top = Bodies.rectangle(150, 5, 300, 10, {isStatic: true});
 
 
 var wall = new THREE.BoxGeometry(10, 530, 1);
@@ -289,10 +279,18 @@ var mesh = new THREE.Mesh(wall, material);
 mesh.position.set((300 / 2 ) - (300 - 150), (470 / 2) - 5, 0);
 scene.add(mesh);
 
+var directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+directionalLight.position.set(0, -100, 100);
+scene.add(directionalLight);
+
+var directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
+directionalLight.position.set(0, 100, 100);
+scene.add(directionalLight);
+
 renderer = new THREE.WebGLRenderer();
 renderer.setSize(300, 430);
 
-document.body.appendChild(renderer.domElement);
+document.getElementById('view').appendChild(renderer.domElement);
 
 function animate() {
     requestAnimationFrame(animate);
@@ -307,6 +305,10 @@ function animate() {
 
     ball_mesh.position.x = (300 / 2) - (300 - ball.position.x);
     ball_mesh.position.y = (470 / 2) - ball.position.y;
+
+    ball_l.position.x = (300 / 2) - (300 - ball.position.x);
+    ball_l.position.y = (470 / 2) - ball.position.y;
+
 
     circle1_mesh.position.x = (300 / 2) - (300 - circle1.position.x);
     circle1_mesh.position.y = (470 / 2) - circle1.position.y;
